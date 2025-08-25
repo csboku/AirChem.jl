@@ -1,0 +1,4 @@
+name = "AirChem"
+uuid = "631376dc-0218-429a-b833-644e14256f8e"
+authors = ["Christian Schmidt <christian.schmidt@boku.ac.at>"]
+version = "0.1.0"
