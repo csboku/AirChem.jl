@@ -1,0 +1,41 @@
+# WRF-Chem Extraction Configuration
+
+# Input/Output settings
+input:
+  folder: "/gpfs/data/fs71391/cschmidt/attain_raw_output/rcp45_2026t35/linked_wrfout/"
+  pattern: "wrfout*"
+
+output:
+  folder: "/gpfs/data/fs71391/cschmidt/attain_processed/monika/tmp/"
+  pattern: "rcp45_nf_"
+
+# Variables to extract only 3D Variables are allowed
+variables_3d:
+  - "o3"
+  - "no"
+  - "no2"
+  - "ho"
+  - "ho2"
+  - "co"
+  - "so2"
+  - "iso"
+  - "hc3"
+  - "hc5"
+  - "hc8"
+  - "ol2"
+  - "olt"
+  - "oli"
+  - "tol"
+  - "xyl"
+
+variables_2d:
+  - "T2"
+  - "SWDOWN"
+
+# Heights for extraction (in meters above ground level)
+heights:
+  - 2
+
+# Processing options
+options:
+  processes: null                  # Number of processes (null = auto)
