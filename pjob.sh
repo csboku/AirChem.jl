@@ -7,7 +7,8 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-user=christian.schmidt@boku.ac.at
-
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
 
 
 # Use srun instead of mpirun

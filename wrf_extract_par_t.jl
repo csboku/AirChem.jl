@@ -1,6 +1,11 @@
 using NCDatasets,YAML,Proj,Dates,CFTime
 using Base.Threads
 
+cpus = Threads.nthreads()
+
+println("Running Julia whith $cpus cores")
+
+println("Read config")
 wrf_config = YAML.load_file("config.yaml")
 
 input_dir = wrf_config["input"]["folder"]
@@ -20,6 +25,7 @@ wrf_vars_2d = wrf_config["variables_2d"]
 function process_file(fname)
     # println("READ DATA")
     # println(fname)
+    println("Read in data")
     ds = Dataset(fname)
     wrf_lat = ds["XLAT"][1,:,1]
     wrf_lon = ds["XLONG"][:,1,1]
@@ -30,7 +36,7 @@ function process_file(fname)
     output_filename = last(split(fname,"/"))
 
     println(output_filename)
-
+    println("Create new dataset")
     wrf_ds_out = NCDataset(output_dir*output_pattern*output_filename,"c",attrib = wrf_attribs)
     defDim(wrf_ds_out,"lat",length(wrf_lat))
     defDim(wrf_ds_out,"lon",length(wrf_lon))
@@ -42,24 +48,25 @@ function process_file(fname)
     wrf_ds_out["lon"][:] = wrf_lon
     wrf_ds_out["time"][:] = wrf_time
 
-    Threads.@threads for var in wrf_vars_3d
+    for var in wrf_vars_3d
         println(var)
         defVar(wrf_ds_out,var,Float32,("lon","lat","time"),attrib = ds[var].attrib)
         wrf_ds_out[var][:,:,:] = ds[var][:,:,1,:]
     end
 
-    Threads.@threads for var in wrf_vars_3d
+    for var in wrf_vars_2d
         println(var)
         defVar(wrf_ds_out,var,Float32,("lon","lat","time"),attrib = ds[var].attrib)
         wrf_ds_out[var][:,:,:] = ds[var][:,:,:]
     end
 
-
+    close(ds)
     close(wrf_ds_out)
 end
 
 
-for f in input_files
+Threads.@threads for f in input_files
+    println(f)
     process_file(f)
 end
 
