@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -J cs_wrf_extract
 #SBATCH -N 1
-#SBATCH --partition=skylake_0096
-#SBATCH --qos=p71391_0096
+#SBATCH --partition=skylake_0384
+#SBATCH --qos=p71391_0384
 #SBATCH --account=p71391
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -12,4 +12,4 @@
 
 
 # Use srun instead of mpirun
-julia --threads=auto ./tests/manual_test.jl
+julia --threads=auto extract_test.jl

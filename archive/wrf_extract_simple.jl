@@ -1,4 +1,5 @@
 using NCDatasets,YAML,Proj,Dates,CFTime
+using Missings
 
 wrf_config = YAML.load_file("config.yaml")
 
@@ -61,22 +62,22 @@ ncout = NCDataset("/gpfs/data/fs71391/cschmidt/attain_processed/monika/attain_rc
 
 
 
-function wrf_ds_add_val(ncin)
+out_data = missings(length(lon),length(lat),length(ncout[:time][:]))
 
+for var in wrf_vars_3d
+    defVar(ncout,var,Float32,("lon","lat","time"))
+    ncout[var] = out_data
 end
 
 
+for var in wrf_vars_2d
+    defVar(ncout,var,Float32,("lon","lat","time"))
+    ncout[var] = out_data
+end
 
-ncin_dt = reinterpret.(DateTimeNoLeap,ncin["XTIME"][:])
-ncin_dt = convert(Vector{DateTimeNoLeap},ncin_dt)
 
-ncin_indconn  = indexin(ncin_dt, ncout["time"][:])
-
-
-defVar(ncout,"o3",Float32,("lon","lat","time"))
-
-@time ncin[:o3][:,:,1,:]
-
+close(ncin)
+close(ncout)
 
 # ncout["o3"][:,:,ncin_indconn] = ncin["o3"][:,:,1,:]
 
