@@ -1,7 +1,9 @@
 module AirChem
 
-export asc_test
-export process_file
+using NCDatasets, Dates, CFTime
+
 include("asc_test.jl")
 include("wrf_extract.jl")
+
+
 end

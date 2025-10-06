@@ -1,8 +1,9 @@
+println("Loading modules")
 using Pkg,YAML
 
 Pkg.activate("/home/fs71391/cschmidt/git/AirChem.jl")
 
-using Base.Threads
+using Base.Threads,AirChem
 
 cpus = Threads.nthreads()
 
@@ -24,7 +25,8 @@ output_pattern = wrf_config["output"]["pattern"]
 wrf_vars_3d = wrf_config["variables_3d"]
 wrf_vars_2d = wrf_config["variables_2d"]
 
-Threads.@threads for i in eachindex(input_f)
+for i in eachindex(input_f)
+    print(input_f[i])
     process_file(input_files[i],output_dir,output_pattern,wrf_vars_3d,wrf_vars_2d)
 end
 
