@@ -1,0 +1,74 @@
+  Activating project at `~/git/AirChem.jl`
+Precompiling project...
+   1570.4 ms  ✓ CommonDataModel
+   2426.3 ms  ✓ NetCDF
+   3238.2 ms  ✓ GDAL_jll
+   3894.0 ms  ✓ NCDatasets
+   6924.7 ms  ✓ HDF5
+   6029.7 ms  ✓ Rasters
+   4325.7 ms  ✓ GDAL
+   1578.0 ms  ✓ Rasters → RastersCoordinateTransformationsExt
+   1734.3 ms  ✓ Rasters → RastersProjExt
+   2277.5 ms  ✓ Rasters → RastersNCDatasetsExt
+  12247.0 ms  ✓ ArchGDAL
+   2425.5 ms  ✓ ArchGDAL → ArchGDALRecipesBaseExt
+   3112.4 ms  ✓ Rasters → RastersArchGDALExt
+   1606.8 ms  ✓ AirChem
+  14 dependencies successfully precompiled in 29 seconds. 151 already precompiled.
+  Activating project at `~/git/AirChem.jl`
+ERROR: LoadError: UndefVarError: `ds` not defined in `AirChem`
+Stacktrace:
+ [1] process_file_chunks(fname::String, outdir::String, outpattern::String, var3d::Vector{String}, var2d::Vector{String})
+   @ AirChem ~/git/AirChem.jl/src/wrf_extract.jl:162
+ [2] top-level scope
+   @ ~/git/AirChem.jl/extract_test.jl:30
+in expression starting at /home/fs71391/cschmidt/git/AirChem.jl/extract_test.jl:28
+
+caused by: TaskFailedException
+
+    nested task error: MethodError: no method matching numind(::Colon)
+    The function `numind` exists, but no method is defined for this combination of argument types.
+    
+    Closest candidates are:
+      numind(!Matched::AbstractArray{Bool})
+       @ DiskArrays ~/.julia/packages/DiskArrays/WgDSb/src/batchgetindex.jl:108
+      numind(!Matched::Union{AbstractArray{<:Integer}, AbstractArray{<:CartesianIndex}})
+       @ DiskArrays ~/.julia/packages/DiskArrays/WgDSb/src/batchgetindex.jl:109
+    
+    Stacktrace:
+      [1] is_sparse_index(ids::Function; density_threshold::Float64)
+        @ DiskArrays ~/.julia/packages/DiskArrays/WgDSb/src/batchgetindex.jl:112
+      [2] (::DiskArrays.var"#75#76")(ind::Function)
+        @ DiskArrays ~/.julia/packages/DiskArrays/WgDSb/src/indexing.jl:186
+      [3] _any_tuple(::DiskArrays.var"#75#76", ::Bool, ::Function, ::Function, ::Vararg{Any})
+        @ Base ./reduce.jl:1259
+      [4] any(f::Function, itr::Tuple{Colon, Colon, Vector{Int64}})
+        @ Base ./reduce.jl:1255
+      [5] setindex_disk_nobatch!(a::NCDatasets.Variable{Float32, 3, NCDatasets.NCDataset{Nothing, Missing}}, values::Array{Float32, 3}, i::Tuple{Colon, Colon, Vector{Int64}})
+        @ DiskArrays ~/.julia/packages/DiskArrays/WgDSb/src/indexing.jl:186
+      [6] setindex_disk!
+        @ ~/.julia/packages/DiskArrays/WgDSb/src/indexing.jl:137 [inlined]
+      [7] setindex!
+        @ ~/.julia/packages/DiskArrays/WgDSb/src/indexing.jl:324 [inlined]
+      [8] setindex!(::CommonDataModel.CFVariable{Float32, 3, NCDatasets.Variable{Float32, 3, NCDatasets.NCDataset{Nothing, Missing}}, CommonDataModel.Attributes{NCDatasets.Variable{Float32, 3, NCDatasets.NCDataset{Nothing, Missing}}}, @NamedTuple{fillvalue::Nothing, missing_values::Tuple{}, scale_factor::Nothing, add_offset::Nothing, calendar::Nothing, time_origin::Nothing, time_factor::Nothing, maskingvalue::Missing}}, ::Array{Float32, 3}, ::Colon, ::Colon, ::Vector{Int64})
+        @ CommonDataModel ~/.julia/packages/CommonDataModel/xg2OM/src/cfvariable.jl:483
+      [9] macro expansion
+        @ ~/git/AirChem.jl/src/wrf_extract.jl:144 [inlined]
+     [10] (::AirChem.var"#228#threadsfor_fun#12"{AirChem.var"#228#threadsfor_fun#10#13"{NCDatasets.NCDataset{Nothing, Missing}, NCDatasets.NCDataset{Nothing, Missing}, String, Vector{Any}}})(tid::Int64; onethread::Bool)
+        @ AirChem ./threadingconstructs.jl:253
+     [11] #228#threadsfor_fun
+        @ ./threadingconstructs.jl:220 [inlined]
+     [12] (::Base.Threads.var"#1#2"{AirChem.var"#228#threadsfor_fun#12"{AirChem.var"#228#threadsfor_fun#10#13"{NCDatasets.NCDataset{Nothing, Missing}, NCDatasets.NCDataset{Nothing, Missing}, String, Vector{Any}}}, Int64})()
+        @ Base.Threads ./threadingconstructs.jl:154
+
+...and 95 more exceptions.
+
+Stacktrace:
+ [1] threading_run(fun::AirChem.var"#228#threadsfor_fun#12"{AirChem.var"#228#threadsfor_fun#10#13"{NCDatasets.NCDataset{Nothing, Missing}, NCDatasets.NCDataset{Nothing, Missing}, String, Vector{Any}}}, static::Bool)
+   @ Base.Threads ./threadingconstructs.jl:173
+ [2] macro expansion
+   @ ./threadingconstructs.jl:190 [inlined]
+ [3] process_file_chunks(fname::String, outdir::String, outpattern::String, var3d::Vector{String}, var2d::Vector{String})
+   @ AirChem ~/git/AirChem.jl/src/wrf_extract.jl:143
+ [4] top-level scope
+   @ ~/git/AirChem.jl/extract_test.jl:30

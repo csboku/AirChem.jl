@@ -27,7 +27,7 @@ wrf_vars_2d = wrf_config["variables_2d"]
 
 for i in eachindex(input_f)
     print(input_f[i])
-    process_file(input_files[i],output_dir,output_pattern,wrf_vars_3d,wrf_vars_2d)
+    process_file_chunks(input_files[i],output_dir,output_pattern,wrf_vars_3d,wrf_vars_2d)
 end
 
 
