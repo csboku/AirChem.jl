@@ -1,4 +1,3 @@
-println("Loading modules")
 using Pkg,YAML
 
 Pkg.activate("/home/fs71391/cschmidt/git/AirChem.jl")
@@ -8,10 +7,11 @@ using Base.Threads,AirChem
 cpus = Threads.nthreads()
 
 
+log_message("Loading modules")
 
-println("Running Julia whith $cpus cores")
+log_message("Running Julia whith $cpus cores")
 
-println("Read config")
+log_message("Read config")
 wrf_config = YAML.load_file("config.yaml")
 
 input_dir = wrf_config["input"]["folder"]

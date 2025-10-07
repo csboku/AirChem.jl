@@ -1,17 +1,22 @@
+function log_message(msg)
+    println("[$(now())] $msg")
+    flush(stdout)
+end
+
 function process_file(fname::String,outdir::String,outpattern::String,var3d::Vector{String},var2d::Vector{String})
-    # println("READ DATA")
-    # println(fname)
-    println("Read in data")
+    # log_message("READ DATA")
+    # log_message(fname)
+    log_message("Read in data")
     ds = Dataset(fname)
     wrf_lat = ds["XLAT"][1,:,1]
     wrf_lon = ds["XLONG"][:,1,1]
     wrf_time = ds["XTIME"][:]
     wrf_attribs = copy(ds.attrib)
-    println("CREATE DATA")
+    log_message("CREATE DATA")
 
     output_filename = last(split(fname,"/"))
 
-    println("Create new dataset $output_filename")
+    log_message("Create new dataset $output_filename")
     wrf_ds_out = NCDataset(outdir*outpattern*output_filename,"c",attrib = wrf_attribs)
     defDim(wrf_ds_out,"lat",length(wrf_lat))
     defDim(wrf_ds_out,"lon",length(wrf_lon))
@@ -33,12 +38,12 @@ function process_file(fname::String,outdir::String,outpattern::String,var3d::Vec
     end
 
     Threads.@threads for var in var3d
-        println(var)
+        log_message(var)
         wrf_ds_out[var][:,:,:] = ds[var][:,:,1,:]
     end
 
     Threads.@threads for var in var2d
-        println(var)
+        log_message(var)
         wrf_ds_out[var][:,:,:] = ds[var][:,:,:]
     end
 
@@ -47,5 +52,8 @@ function process_file(fname::String,outdir::String,outpattern::String,var3d::Vec
     close(wrf_ds_out)
 end
 
-export process_file
+
+
+
+export log_message,process_file
 
